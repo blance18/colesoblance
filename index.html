@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Бонусы 1WIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #10131f, #0b0d17);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #00e0ff;
+      text-shadow: 0 0 10px #00e0ffcc;
+      margin-bottom: 10px;
+      font-size: 6vw;
+    }
+    h2 {
+      color: #ffffffaa;
+      font-weight: normal;
+      font-size: 4.5vw;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+    .slot-container {
+      width: 90vw;
+      max-width: 360px;
+      height: 100px;
+      overflow: hidden;
+      border: 3px solid #00e0ff;
+      border-radius: 10px;
+      background: #191f2b;
+      box-shadow: 0 0 20px #00e0ff55;
+      position: relative;
+    }
+    .slot {
+      display: flex;
+      flex-direction: column;
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    .item {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4vw;
+      font-weight: bold;
+      color: #fff;
+      border-bottom: 1px solid #2a2f40;
+      background: #1f2735;
+    }
+    #spin {
+      margin-top: 30px;
+      padding: 15px 40px;
+      font-size: 5vw;
+      background: linear-gradient(to right, #00e0ff, #0061ff);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00e0ffbb;
+      transition: 0.3s;
+      max-width: 90%;
+    }
+    #spin:hover {
+      transform: scale(1.05);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #131925;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 30px #00e0ff99;
+      z-index: 1000;
+      width: 90%;
+      max-width: 350px;
+    }
+    .modal h2 {
+      color: #00ffcc;
+      margin-bottom: 10px;
+      font-size: 5vw;
+    }
+    .promo {
+      color: #ffd700;
+      font-size: 4vw;
+      margin-bottom: 20px;
+    }
+    .modal button {
+      padding: 12px 25px;
+      font-size: 4.5vw;
+      background: #ffd700;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+    .modal button:hover {
+      background: #ffe95c;
+    }
+    @media (min-width: 768px) {
+      h1 { font-size: 30px; }
+      h2 { font-size: 18px; }
+      .item { font-size: 18px; }
+      #spin { font-size: 18px; }
+      .modal h2 { font-size: 20px; }
+      .promo { font-size: 16px; }
+      .modal button { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Бонусы 1WIN</h1>
+  <h2>Крути рулетку и получи шанс на реальный бонус!</h2>
+
+  <div class="slot-container">
+    <div class="slot" id="slot"></div>
+  </div>
+  <button id="spin">Крутить рулетку</button>
+
+  <div class="modal" id="popup">
+    <h2 id="popupText">🎁 Вы выиграли: ...</h2>
+    <div class="promo" id="promoCode" style="display: none;">Промокод: <b>BLANCE</b></div>
+    <button onclick="window.location.href='https://1wtofc.life/casino/list?open=register&p=ybib'">Забрать бонус</button>
+  </div>
+
+  <script>
+    const realPrizes = [
+      "25 000₽ на баланс",
+      "+500%",
+      "50 FS",
+      "70 FS",
+      "5 000₽ на баланс",
+      "Ставка 1 000₽",
+      "+500% + 70 FS"
+    ];
+
+    const fakePrizes = [
+      "100 000₽ наличными",
+      "iPhone 15 Pro Max",
+      "MacBook Air M3",
+      "Tesla Model 3",
+      "Отдых на Бали",
+      "1 000 000₽ кэшем",
+      "Путёвка в Дубай"
+    ];
+
+    const fullPrizeList = [...realPrizes, ...fakePrizes];
+
+    const slot = document.getElementById('slot');
+    const popup = document.getElementById('popup');
+    const popupText = document.getElementById('popupText');
+    const promoCode = document.getElementById('promoCode');
+
+    function initSlot() {
+      slot.innerHTML = '';
+      for (let i = 0; i < fullPrizeList.length * 4; i++) {
+        const item = document.createElement('div');
+        item.className = 'item';
+        item.innerText = fullPrizeList[i % fullPrizeList.length];
+        slot.appendChild(item);
+      }
+    }
+
+    initSlot();
+
+    document.getElementById('spin').onclick = () => {
+      const index = Math.floor(Math.random() * realPrizes.length);
+      const prize = realPrizes[index];
+      const stopAt = index + fullPrizeList.length * 2;
+      const offset = stopAt * 100 * -1;
+
+      slot.style.transition = 'transform 5s cubic-bezier(0.33, 1, 0.68, 1)';
+      slot.style.transform = `translateY(${offset}px)`;
+
+      setTimeout(() => {
+        popupText.innerText = "🎁 Вы выиграли: " + prize;
+        promoCode.style.display = "block";
+        popup.style.display = 'block';
+      }, 5100);
+    };
+  </script>
+</body>
+</html>
